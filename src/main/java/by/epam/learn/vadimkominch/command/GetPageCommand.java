@@ -27,16 +27,16 @@ public class GetPageCommand implements Command {
                 returnPage = "jsp/admin.jsp";
                 break;
             case "profile":
-                returnPage = "jsp/profile.jsp";
+                returnPage = "jsp/advertisment.jsp";
                 break;
             case "new_ads":
                 returnPage = "jsp/advertisment.jsp";
                 break;
             default:
                 DAOInterface<Advertisment,String> daoInterface = new AdvertismentDaoImplementation();
-                List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);
-                advertismentList.forEach(System.out::println);
                 HttpSession session = request.getSession(true);
+                session.setAttribute("page",1);
+                List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);
                 if(session.getAttribute("advertismentList")==null) {
                     session.setAttribute("advertismentList", advertismentList);
                 }

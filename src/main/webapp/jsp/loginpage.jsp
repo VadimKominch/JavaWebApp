@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Users</title>
+<title>Login</title>
 <meta charset="UTF-8">
 <link rel='stylesheet' type='text/css' href='bootstrap/css/bootstrap.min.css'>
 <link rel='stylesheet' type='text/css' href='css/loginpage.css'>

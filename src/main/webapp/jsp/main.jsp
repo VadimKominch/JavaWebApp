@@ -6,6 +6,6 @@
        <title>Users</title>
        </head>
        <body>
-            <jsp:forward page="/get_page?page=main"/>
+            <jsp:forward page="/main"/>
        </body>
        </html>

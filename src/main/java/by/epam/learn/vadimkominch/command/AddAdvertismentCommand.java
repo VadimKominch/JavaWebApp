@@ -26,10 +26,9 @@ public class AddAdvertismentCommand implements Command{
         advertisment.setDate(new Date());
         advertisment.setName(adsName);
         advertisment.setText(adsText);
+        advertisment.setAuthorId(user.getId());
         daoInterface.addOneDAO(advertisment);
-        //update info anbout page of eadvertisments
-        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);
-//        advertismentList.forEach(System.out::println);
+        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);//add builder for selecting
         request.getSession(true).setAttribute("advertismentList", advertismentList);
         return "jsp/profile.jsp";
     }

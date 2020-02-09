@@ -22,9 +22,6 @@ public class ActionFactory {
             case "/register":
                 command = new RegistrationCommand();
                 break;
-            case "/get_register":
-                command = new GetRegisterPageCommand();
-                break;
             case "/main":
                 command = new GetMainPageCommand();
                 break;

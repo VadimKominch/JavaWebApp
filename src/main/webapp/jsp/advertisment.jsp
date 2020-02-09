@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-       <!DOCTYPE html>
+      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <!DOCTYPE html>
        <html>
        <head>
            <meta charset="utf-8">
@@ -8,6 +9,37 @@
            <link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css"/>
         </head>
         <body>
+               <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">LOGO</a>
+                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
+                             <div class="dropdown-menu dropdown-menu-right">
+                                 <a class="dropdown-item" href="get_page?page=profile">Profile</a>
+                                 <a class="dropdown-item" href="logout">Logout</a>
+                             </div>
+                         </li>
+                     <li class="nav-item">
+                       <a class="nav-link" href="#">Contacts</a>
+                     </li>
+                     <li class="nav-item">
+                       <a class="nav-link" href="#">About us</a>
+                     </li>
+                  </ul>
+                     <ul class="navbar-nav">
+                    <c:choose>
+                        <c:when test="${userName!=null}">
+                            <c:import url="LoggedInTab.jsp"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:import url="LoginTab.jsp"/>
+                        </c:otherwise>
+                    </c:choose>
+
+                     </ul>
+               </nav>
+
+
 <div class="container">
         <div class="row">
             <div class="col-12">
@@ -91,8 +123,10 @@
                                         <hr />
 
                                     </div>
-                                    <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Create new Ads</button>
+       <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+       <p>
+       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Create new Ads</button>
+       </p>
        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
@@ -123,7 +157,7 @@
                  </div>
                  <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" formaction= "add_adv">Send message</button>
+                                <button type="submit" class="btn btn-primary" formaction= "add_adv">Save</button>
                  </div>
                </form>
              </div>
@@ -131,15 +165,36 @@
            </div>
          </div>
        </div> <!--end of modal window-->
-                                        <p>Facebook, Google, Twitter Account that are connected to this account</p>
+       <br>
+                                         <div class="blog-post">
+                                                      <h2 class="blog-post-title">ADS123</h2>
+                                                      <p class="blog-post-meta">2020-05-08</p>
+                                                      <p class="text-break">Скачки. Клиент делает Ставки разных видов (победа, первая тройка, аутсайдер, точное место и пр.) на Скачки. Букмекер устанавливает уровень выигрыша. Администратор управляет Пользователями, создает (изменяет) Скачки, а также фиксирует (random генерация) их результаты.
+                                                      </p>
+                                                      <div class="row">
+                                                            <p>
+                                                                Category : <a href="#"><span class="badge badge-info">Select1</span></a>
+                                                            </p>
+                                                      </div>
+                                         </div>
+
+                                         <div class="blog-post">
+                                                       <h2 class="blog-post-title">ADS123</h2>
+                                                       <p class="blog-post-meta">2020-05-08</p>
+                                                       <p class="text-break">Скачки. Клиент делает Ставки разных видов (победа, первая тройка, аутсайдер, точное место и пр.) на Скачки. Букмекер устанавливает уровень выигрыша. Администратор управляет Пользователями, создает (изменяет) Скачки, а также фиксирует (random генерация) их результаты.
+                                                       </p>
+                                                       <div class="row">
+                                                             <p>
+                                                                 Category : <a href="#"><span class="badge badge-info">Select1</span></a>
+                                                             </p>
+                                                       </div>
+                                          </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ public class LoginCommand implements Command {
         if (checker.checkLoginIsNullable(login) && checker.checkPasswordIsNullable(password)) {
             DAOInterface<User, String> userDAOInterface = new UserDaoImplementation();
             User user = userDAOInterface.getOne(login);
-//            System.out.println(user);
+            //insert check class
             if (user != null && (user.getLogin().equals(login) || user.getEmail().equals(login)) && user.getPassword().equals(password)) {
                 if(session.getAttribute("userName")==null) {
                     session.setAttribute("userName",user.getNickName());
@@ -30,12 +30,11 @@ public class LoginCommand implements Command {
                 if(session.getAttribute("user")==null) {
                     session.setAttribute("user",user);
                 }
-                return "get_page?page=main";
+                return "main";
                 //TODO replace by global variables
             }
         }
         //TODO add error message to loginpage.jsp
-        System.out.println("Fail");
         return "jsp/loginpage.jsp";
         //if action is login then return mainpage with credentials
         //else do nothing or send error messages

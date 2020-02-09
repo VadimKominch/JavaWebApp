@@ -12,13 +12,29 @@ public class GetMainPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         DAOInterface<Advertisment,String> daoInterface = new AdvertismentDaoImplementation();
-        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);
-
         HttpSession session = request.getSession(true);
-
-        if(session.getAttribute("advertisments")==null) {
-            session.setAttribute("advertisments", advertismentList);
+        int pageNumber;
+        if(session.getAttribute("mainPageAdvListNumber")==null) {
+            session.setAttribute("mainPageAdvListNumber",1);
+            pageNumber = 1;
+        } else {
+            pageNumber = (int) session.getAttribute("mainPageAdvListNumber");
         }
+        String direction = request.getParameter("direction");
+        if(direction != null) {
+            if (direction.equals("next")) {
+                pageNumber += 1;
+            } else if (direction.equals("prev")) {
+                pageNumber -= 1;
+            }
+            session.setAttribute("mainPageAdvListNumber",pageNumber);
+        }
+        int lowBorder = 10*(pageNumber-1)+1;
+        int highBorder = 10*pageNumber;
+        System.out.println(lowBorder+":"+highBorder);
+        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(lowBorder,highBorder);
+        System.out.println(advertismentList.size());
+        session.setAttribute("advertismentList", advertismentList);
         return "jsp/mainpage.jsp";
     }
 }

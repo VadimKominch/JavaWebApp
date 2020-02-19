@@ -8,5 +8,5 @@ public interface DAOInterface<T,K> {
     List<T> getAll();
     void addOneDAO(T t);
     void deleteOneDAO(T t);
-    void updateOneDAO(T old,T replace);
+    void updateOneDAO(K id,T replace);
 }

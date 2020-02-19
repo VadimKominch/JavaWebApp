@@ -31,6 +31,12 @@ public class ActionFactory {
             case "/add_adv":
                 command = new AddAdvertismentCommand();
                 break;
+            case "/edit_adv":
+                command = new ModifyAdvertismentCommand();
+                break;
+            case "/delete_adv":
+                command = new DeleteAdvertismentCommand();
+                break;
             default:
                 command = new UnknownCommand();
         }

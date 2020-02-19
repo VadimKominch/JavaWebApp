@@ -17,13 +17,15 @@
 
        <body>
        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">LOGO</a>
+        <a class="navbar-brand" href="main">LOGO</a>
          <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
                      <div class="dropdown-menu dropdown-menu-right">
-                         <a href="get_page?page=profile" class="dropdown-item">Profile</a>
-                         <a class="dropdown-item" href="logout">Logout</a>
+                         <a href="#" class="dropdown-item">Select1</a>
+                         <a href="#" class="dropdown-item" >Select2</a>
+                         <a href="#" class="dropdown-item">Select3</a>
+                         <a href="#" class="dropdown-item" >Select4</a>
                      </div>
                  </li>
              <li class="nav-item">
@@ -71,13 +73,17 @@
                     </li>
                     </c:when>
                 </c:choose>
-                <li class="page-item">${mainPageAdvListNumber}</li>
-                <li class="page-item">
-                  <a class="page-link" href="main?direction=next" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
+                <li class="page-item"> <a class="page-link" href="javascript:void(0)">${mainPageAdvListNumber}</li></a>
+                <c:choose>
+                    <c:when test="${mainPageAdvListNumber<totalPageAmount}">
+                        <li class="page-item">
+                          <a class="page-link" href="main?direction=next" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+                     </c:when>
+                </c:choose>
               </ul>
             </nav>
         </div>

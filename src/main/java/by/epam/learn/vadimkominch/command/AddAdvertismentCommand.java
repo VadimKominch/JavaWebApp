@@ -30,6 +30,6 @@ public class AddAdvertismentCommand implements Command{
         daoInterface.addOneDAO(advertisment);
         List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);//add builder for selecting
         request.getSession(true).setAttribute("advertismentList", advertismentList);
-        return "jsp/profile.jsp";
+        return "jsp/advertisment.jsp";
     }
 }

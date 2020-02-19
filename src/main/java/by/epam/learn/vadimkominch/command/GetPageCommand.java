@@ -1,12 +1,7 @@
 package by.epam.learn.vadimkominch.command;
 
-import by.epam.learn.vadimkominch.daoimplementation.AdvertismentDaoImplementation;
-import by.epam.learn.vadimkominch.daoimplementation.DAOInterface;
-import by.epam.learn.vadimkominch.entity.Advertisment;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * Implement factory pattern to get all pages

@@ -20,6 +20,8 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
             ResultSet resultSet = ps.executeQuery();
             if(resultSet.next()) {
                 user = new User();
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
                 user.setNickName(resultSet.getString("nickname"));
                 user.setLogin(resultSet.getString("login"));
                 user.setEmail(resultSet.getString("email"));
@@ -139,18 +141,14 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
     }
 
     @Override
-    public void updateOneDAO(User old, User replace) {
+    public void updateOneDAO(String id, User replace) {
         //TODO rebuild update sql query
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
         try {
             PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(SQLCommand.UPDATE_USER);
-            preparedStatement.setInt(1,old.getId());
-            preparedStatement.setInt(1,old.getId());
-            preparedStatement.setInt(1,old.getId());
-            preparedStatement.setInt(1,old.getId());
-            preparedStatement.setInt(1,old.getId());
+            preparedStatement.setString(1,id);
             int rows = preparedStatement.executeUpdate();
             //TODO replace by logger
             //it can be zero

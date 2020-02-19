@@ -32,7 +32,7 @@ public class MessageDAOImplementation implements DAOInterface<Message,String> {
     }
 
     @Override
-    public void updateOneDAO(Message old, Message replace) {
+    public void updateOneDAO(String id, Message replace) {
 
     }
 }

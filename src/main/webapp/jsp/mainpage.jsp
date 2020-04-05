@@ -36,21 +36,33 @@
              </li>
           </ul>
              <ul class="navbar-nav">
-            <c:choose>
-                <c:when test="${userName!=null}">
-                    <c:import url="LoggedInTab.jsp"/>
-                </c:when>
-                <c:otherwise>
-                    <c:import url="LoginTab.jsp"/>
-                </c:otherwise>
-            </c:choose>
-
+                 <li class="navbar-item">
+                     <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" data-toggle="dropdown">language</a>
+                              <div class="dropdown-menu dropdown-menu">
+                                  <a href="#" class="dropdown-item">Ru</a>
+                                  <a href="#" class="dropdown-item" >En</a>
+                                  <a href="#" class="dropdown-item">Be</a>
+                                  <a href="#" class="dropdown-item" >Ua</a>
+                              </div>
+                          </li>
+                 </li>
+                 <li class = "nav-item">
+                    <c:choose>
+                        <c:when test="${userName!=null}">
+                            <c:import url="LoggedInTab.jsp"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:import url="LoginTab.jsp"/>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
              </ul>
        </nav>
 
        <main role="main" class="container">
              <div class="row">
-               <div class="col-md-8 blog-main">
+               <div class="col-md-12">
                <c:forEach var="advertisment" items="${advertismentList}">
                    <jsp:include page="advertisment_tab.jsp" flush="true">
                    <jsp:param name="name" value="${advertisment.name}" />
@@ -87,49 +99,6 @@
               </ul>
             </nav>
         </div>
-
-        <aside class="col-md-4 blog-sidebar">
-                <div class="card my-4 p-3">
-                    <h5 class="card-header">Search</h5>
-                    <div class="card-body">
-                      <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                          <button class="btn btn-secondary" type="button">Go!</button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-          <div class="p-3">
-            <h4 class="font-normal">Archives</h4>
-            <ol class="list-unstyled mb-0">
-              <li><a href="#">March 2014</a></li>
-              <li><a href="#">February 2014</a></li>
-              <li><a href="#">January 2014</a></li>
-              <li><a href="#">December 2013</a></li>
-              <li><a href="#">November 2013</a></li>
-              <li><a href="#">October 2013</a></li>
-              <li><a href="#">September 2013</a></li>
-              <li><a href="#">August 2013</a></li>
-              <li><a href="#">July 2013</a></li>
-              <li><a href="#">June 2013</a></li>
-              <li><a href="#">May 2013</a></li>
-              <li><a href="#">April 2013</a></li>
-            </ol>
-          </div>
-
-          <div class="p-3">
-            <h4 class="font-normal">Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">GitHub</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Facebook</a></li>
-            </ol>
-          </div>
-        </aside>
 
       </div><!-- /.row -->
 

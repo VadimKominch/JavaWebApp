@@ -2,7 +2,7 @@ package by.epam.learn.vadimkominch.demoservlet;
 
 import by.epam.learn.vadimkominch.command.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Class provided to generate command from request. Use object of @{HttpServletRequest}.

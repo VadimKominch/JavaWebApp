@@ -5,8 +5,8 @@ import by.epam.learn.vadimkominch.daoimplementation.DAOInterface;
 import by.epam.learn.vadimkominch.daoimplementation.UserDaoImplementation;
 import by.epam.learn.vadimkominch.entity.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
     private static LoginAndPasswordCheck checker = new LoginAndPasswordCheck();

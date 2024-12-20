@@ -1,6 +1,6 @@
 package by.epam.learn.vadimkominch.connectionpool;
 
-import by.epam.learn.vadimkominch.Constant.PathConstant;
+import by.epam.learn.vadimkominch.constant.PathConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,132 +8,80 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 
 /**
  * Class which provides database connection. Locks used.
  */
 public class ConnectionPool {
-    //add logger
-    private Lock lock;
-    private List<Connection> connectionList;//replace by BlockingQueue
+    private Queue<Connection> connectionList;
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+    private Properties databaseProperties;
 
-    private ConnectionPool() {
-        //add connection to database table
-        connectionList = new ArrayList<>();
-        lock = new ReentrantLock(true);
+    public static final int DEFAULT_POOL_SIZE = 10;
+
+    private ConnectionPool(){
+        loadProperties();
         initConnectionPool();
         /* Open connections*/
-        LOGGER.debug("Connection Pool is created. CurrentPoolSize = " + connectionList.size());
+        LOGGER.debug("Connection Pool is created. CurrentPoolSize = {}", connectionList.size());
+    }
+
+    private void loadProperties() {
+        try (InputStream in = Thread
+                .currentThread()
+                .getContextClassLoader()
+                .getResourceAsStream(PathConstant.SECOND_DATABASE_RESOURCE_PATH)) {
+            databaseProperties = new Properties();
+            databaseProperties.load(in);
+        } catch (IOException e) {
+            LOGGER.error("No config file is present");
+            System.exit(1);
+        }
     }
 
     public void releaseConnection(Connection connection) {
-        try {
-            lock.lock();
             connectionList.add(connection);
-        } finally {
-            lock.unlock();
-        }
     }
 
     public Connection getConnection() {
-        try {
-            lock.lock();
-            int size = connectionList.size();
-            if (size == 0) {
-                Connection connection = createConnection();
-                return connection;
-            } else {
-                return connectionList.get(size - 1);
-            }
-        } finally {
-            lock.unlock();
+        int size = connectionList.size();
+        if (size == 0) {
+            return createConnection();
+        } else {
+            return connectionList.poll();
         }
     }
 
-    /**
-     * Method for creating connections. Use data from resources files
-     *
-     * @return
-     */
     private Connection createConnection() {
-        Properties properties = new Properties();
-        InputStream in = null;
         try {
-//            ClassLoader classLoader = getClass().getClassLoader();
-//            URL resource = classLoader.getResource(PathConstant.SECOND_DATABASE_RESOURCE_PATH);
-//            File file = new File(resource.getFile());
-//            in = new FileInputStream(file);
-            in = Thread.currentThread().getContextClassLoader().getResourceAsStream(PathConstant.SECOND_DATABASE_RESOURCE_PATH);
-            properties.load(in);
-            String driver = properties.getProperty(PathConstant.KEY_FOR_DRIVER);
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            String url = properties.getProperty(PathConstant.KEY_FOR_URI);
-            String username = properties.getProperty(PathConstant.KEY_FOR_USERNAME);
-            String password = properties.getProperty(PathConstant.KEY_FOR_PASSWORD);
-            Connection connection = DriverManager.getConnection(url, username, password);
-            return connection;
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            String url = databaseProperties.getProperty(PathConstant.KEY_FOR_URI);
+            String username = databaseProperties.getProperty(PathConstant.KEY_FOR_USERNAME);
+            String password = databaseProperties.getProperty(PathConstant.KEY_FOR_PASSWORD);
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
         }
         return null;
     }
 
     private void initConnectionPool() {
-        Properties properties = new Properties();
-        InputStream in = null;
         int poolSize;
         try {
-//            ClassLoader classLoader = getClass().getClassLoader();(Thread.currentThread().getContextClassLoader().
-//            URL resource = classLoader.getResource(PathConstant.SECOND_DATABASE_RESOURCE_PATH);
-//            File file = new File(resource.getFile());
-//            ClassLoader classloader = Thread.currentThread().getContextClassLoader().getResourceAsStream(PathConstant.SECOND_DATABASE_RESOURCE_PATH);
-            in = Thread.currentThread().getContextClassLoader().getResourceAsStream(PathConstant.SECOND_DATABASE_RESOURCE_PATH);
-            //in = new FileInputStream(PathConstant.DATABASE_RESOURCE_PATH);
-            //in = getClass().getClassLoader().getResourceAsStream(PathConstant.DATABASE_RESOURCE_PATH);
-            //in = new FileInputStream(file);
-            properties.load(in);
-            try {
-                poolSize = Integer.parseInt(properties.getProperty(PathConstant.KEY_FOR_POOL_SIZE));
-            } catch (NumberFormatException e) {
-                //logger
-                poolSize = 10;
-            }
-            for (int i = 0; i < poolSize; i++) {
-                Connection connection = createConnection();
-                if (connection == null) {
-                    throw new NullPointerException();
-                } else {
-                    connectionList.add(connection);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            poolSize = Integer.parseInt(databaseProperties.getProperty(PathConstant.KEY_FOR_POOL_SIZE));
+        } catch (NumberFormatException e) {
+            LOGGER.warn("No value for pool size is present, default pool size is {}",DEFAULT_POOL_SIZE);
+            poolSize = DEFAULT_POOL_SIZE;
+        }
+        connectionList = new ArrayBlockingQueue<>(poolSize);
+        for (int i = 0; i < poolSize; i++) {
+            Connection connection = createConnection();
+            connectionList.add(connection);
         }
     }
-
     //TODO
     //increase amount  of connections
     //decrease amount of connections

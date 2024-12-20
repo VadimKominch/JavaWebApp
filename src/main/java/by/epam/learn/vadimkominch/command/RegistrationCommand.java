@@ -5,7 +5,7 @@ import by.epam.learn.vadimkominch.daoimplementation.UserDaoImplementation;
 import by.epam.learn.vadimkominch.entity.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class RegistrationCommand implements Command {
     @Override
@@ -28,7 +28,7 @@ public class RegistrationCommand implements Command {
         DAOInterface<User,String> userDAOInterface = new UserDaoImplementation();
         User selectedUser = userDAOInterface.getOne(email);
         if(selectedUser == null) {
-            userDAOInterface.addOneDAO(user);// add to credentials and users table
+            userDAOInterface.save(user);// add to credentials and users table
         } else {
             //jsp/errorMessage.jsp
         }

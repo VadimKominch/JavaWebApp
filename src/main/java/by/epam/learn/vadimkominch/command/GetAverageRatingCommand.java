@@ -1,6 +1,6 @@
 package by.epam.learn.vadimkominch.command;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class GetAverageRatingCommand implements Command {
     @Override

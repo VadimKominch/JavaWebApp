@@ -4,7 +4,7 @@ import by.epam.learn.vadimkominch.daoimplementation.AdvertismentDaoImplementatio
 import by.epam.learn.vadimkominch.daoimplementation.DAOInterface;
 import by.epam.learn.vadimkominch.entity.Advertisment;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class ModifyAdvertismentCommand implements Command {
@@ -19,7 +19,7 @@ public class ModifyAdvertismentCommand implements Command {
         advertisment.setText(request.getParameter("Text"));
         System.out.println(advertisment);
         DAOInterface<Advertisment,String> daoInterface = new AdvertismentDaoImplementation();
-        daoInterface.updateOneDAO(request.getParameter("ads_id"),advertisment);
+        daoInterface.update(request.getParameter("ads_id"),advertisment);
         return "jsp/advertisment.jsp";
     }
 }

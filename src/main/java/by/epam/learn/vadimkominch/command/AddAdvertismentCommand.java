@@ -5,8 +5,8 @@ import by.epam.learn.vadimkominch.daoimplementation.DAOInterface;
 import by.epam.learn.vadimkominch.entity.Advertisment;
 import by.epam.learn.vadimkominch.entity.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +27,8 @@ public class AddAdvertismentCommand implements Command{
         advertisment.setName(adsName);
         advertisment.setText(adsText);
         advertisment.setAuthorId(user.getId());
-        daoInterface.addOneDAO(advertisment);
-        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);//add builder for selecting
+        daoInterface.save(advertisment);
+        List<Advertisment> advertismentList = daoInterface.getAdvertismentsInBorders(1,10);//add builder for selecting
         request.getSession(true).setAttribute("advertismentList", advertismentList);
         return "jsp/advertisment.jsp";
     }

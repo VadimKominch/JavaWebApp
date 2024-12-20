@@ -12,7 +12,7 @@ public class MessageDAOImplementation implements DAOInterface<Message,String> {
     }
 
     @Override
-    public List<Message> getAmountOfDAOInBorders(Integer fromId, Integer toId) {
+    public List<Message> getAdvertismentsInBorders(Integer fromId, Integer toId) {
         return null;
     }
 
@@ -22,17 +22,17 @@ public class MessageDAOImplementation implements DAOInterface<Message,String> {
     }
 
     @Override
-    public void addOneDAO(Message message) {
+    public void save(Message message) {
 
     }
 
     @Override
-    public void deleteOneDAO(Message message) {
+    public void delete(Message message) {
 
     }
 
     @Override
-    public void updateOneDAO(String id, Message replace) {
+    public void update(String id, Message replace) {
 
     }
 }

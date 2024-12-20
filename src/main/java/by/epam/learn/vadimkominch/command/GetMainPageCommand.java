@@ -2,8 +2,8 @@ package by.epam.learn.vadimkominch.command;
 
 import by.epam.learn.vadimkominch.daoimplementation.AdvertismentDaoImplementation;
 import by.epam.learn.vadimkominch.entity.Advertisment;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 public class GetMainPageCommand implements Command {
@@ -14,7 +14,7 @@ public class GetMainPageCommand implements Command {
         int totalSize = daoInterface.getAmountOfAdvertisments();
 //        System.out.println("Total size:" +totalSize);
 //        System.out.println((int)Math.ceil((double)totalSize/10));
-            session.setAttribute("totalPageAmount", (int)Math.ceil((double)totalSize/10));
+        session.setAttribute("totalPageAmount", (int)Math.ceil((double)totalSize/10));
         int pageNumber;
         if (session.getAttribute("mainPageAdvListNumber") == null) {
             session.setAttribute("mainPageAdvListNumber", 1);
@@ -36,7 +36,7 @@ public class GetMainPageCommand implements Command {
         int lowBorder = 10 * (pageNumber - 1) + 1;
         int highBorder = 10 * pageNumber;
         System.out.println(lowBorder + ":" + highBorder);
-        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(lowBorder, highBorder);
+        List<Advertisment> advertismentList = daoInterface.getAdvertismentsInBorders(lowBorder, highBorder);
         System.out.println(advertismentList.size());
         session.setAttribute("advertismentList", advertismentList);
         return "jsp/mainpage.jsp";

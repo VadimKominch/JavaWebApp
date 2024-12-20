@@ -1,6 +1,6 @@
 package by.epam.learn.vadimkominch.daoimplementation;
 
-import by.epam.learn.vadimkominch.Constant.SQLCommand;
+import by.epam.learn.vadimkominch.constant.SQLCommand;
 import by.epam.learn.vadimkominch.connectionpool.ConnectionPool;
 import by.epam.learn.vadimkominch.entity.User;
 
@@ -37,7 +37,7 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
     }
 
     @Override
-    public List<User> getAmountOfDAOInBorders(Integer fromId, Integer toId) {
+    public List<User> getAdvertismentsInBorders(Integer fromId, Integer toId) {
         List<User> userList = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -47,10 +47,10 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getInt("User_id"));
-                user.setNickName(resultSet.getString("Nickname"));
-                user.setFirstName(resultSet.getString("FirstName"));
-                user.setLastName(resultSet.getString("SecondName"));
+                user.setId(resultSet.getInt("id"));
+                user.setNickName(resultSet.getString("nick_name"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("second_name"));
                 userList.add(user);
             }
             ConnectionPool.getInstance().releaseConnection(connection);
@@ -71,7 +71,7 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
             ResultSet resultSet = statement.executeQuery(SQLCommand.SELECT_ALL_USERS);
             while(resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getInt("User_id"));
+                user.setId(resultSet.getInt("id"));
                 user.setNickName(resultSet.getString("Nickname"));
                 user.setFirstName(resultSet.getString("FirstName"));
                 user.setLastName(resultSet.getString("SecondName"));
@@ -87,7 +87,7 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
     }
 
     @Override
-    public void addOneDAO(User user) {
+    public void save(User user) {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
         try {
@@ -117,7 +117,7 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
     }
 
     @Override
-    public void deleteOneDAO(User user) {
+    public void delete(User user) {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
         try {
@@ -141,7 +141,7 @@ public class UserDaoImplementation implements DAOInterface<User,String>{
     }
 
     @Override
-    public void updateOneDAO(String id, User replace) {
+    public void update(String id, User replace) {
         //TODO rebuild update sql query
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();

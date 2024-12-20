@@ -1,7 +1,7 @@
 package by.epam.learn.vadimkominch.command;
 
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Implement factory pattern to get all pages

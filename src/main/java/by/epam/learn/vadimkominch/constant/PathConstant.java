@@ -1,4 +1,4 @@
-package by.epam.learn.vadimkominch.Constant;
+package by.epam.learn.vadimkominch.constant;
 
 public class PathConstant {
     public final static String DATABASE_RESOURCE_PATH = "src/main/resources/database.properties";

@@ -1,6 +1,6 @@
 package by.epam.learn.vadimkominch.daoimplementation;
 
-import by.epam.learn.vadimkominch.Constant.SQLCommand;
+import by.epam.learn.vadimkominch.constant.SQLCommand;
 import by.epam.learn.vadimkominch.connectionpool.ConnectionPool;
 import by.epam.learn.vadimkominch.entity.Advertisment;
 import org.apache.logging.log4j.LogManager;
@@ -36,8 +36,7 @@ public class AdvertismentDaoImplementation implements DAOInterface<Advertisment,
         return advertisment;
     }
 
-    @Override
-    public List<Advertisment> getAmountOfDAOInBorders(Integer fromId, Integer toId) {
+    public List<Advertisment> getAdvertismentsInBorders(Integer fromId, Integer toId) {
         List<Advertisment> advertismentList = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -48,6 +47,7 @@ public class AdvertismentDaoImplementation implements DAOInterface<Advertisment,
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
                 Advertisment advertisment = new Advertisment();
+                // use row mapper
                 advertisment.setCategory(resultSet.getString("category"));
                 advertisment.setAuthor(resultSet.getString("nickname"));
                 advertisment.setText(resultSet.getString("text"));
@@ -120,7 +120,7 @@ public class AdvertismentDaoImplementation implements DAOInterface<Advertisment,
 
 
     @Override
-    public void addOneDAO(Advertisment advertisment) {
+    public void save(Advertisment advertisment) {
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
             connection.setAutoCommit(false);
@@ -145,7 +145,7 @@ public class AdvertismentDaoImplementation implements DAOInterface<Advertisment,
     }
 
     @Override
-    public void deleteOneDAO(Advertisment advertisment) {
+    public void delete(Advertisment advertisment) {
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
@@ -163,7 +163,7 @@ public class AdvertismentDaoImplementation implements DAOInterface<Advertisment,
     }
 
     @Override
-    public void updateOneDAO(String id, Advertisment replace) {
+    public void update(String id, Advertisment replace) {
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement(SQLCommand.UPDATE_ADVERTISMENT_NAME_AND_CATEGORY);

@@ -2,13 +2,14 @@ package by.epam.learn.vadimkominch.command;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Implement factory pattern to get all pages
  */
 public class GetPageCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String page = request.getParameter("page");
         String returnPage = null;
         switch (page) {
@@ -30,7 +31,7 @@ public class GetPageCommand implements Command {
                 returnPage = "main";
                 break;
         }
-        return returnPage;
+//        return returnPage;
     }
     //TODO add some pagination commands
 }

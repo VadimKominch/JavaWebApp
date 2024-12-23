@@ -1,7 +1,9 @@
 create table if not exists paragraph(
     id int not null auto_increment,
-    paragraph_name text not null,
-    category text not null,
+    title text not null,
+    body text not null,
+    category_id int not null,
+    created_date datetime not null,
     author_id int not null,
     primary key(id)
 );
@@ -13,7 +15,6 @@ create table if not exists user(
     first_name text not null,
     last_name text not null,
     nick_name text not null,
-    role int not null,
     primary key(id)
 );
 
@@ -21,6 +22,15 @@ create table if not exists credentials(
     id int not null auto_increment,
     login text not null,
     password text not null,
-    email int not null,
+    email text not null,
+    user_id int not null,
     primary key(id)
 );
+
+create table if not exists category(
+    id int not null auto_increment,
+    name text,
+    primary key(id)
+);
+
+insert into category (name) values ('Common'),('Goods'),('Ads');

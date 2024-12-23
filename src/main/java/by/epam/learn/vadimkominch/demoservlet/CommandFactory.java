@@ -8,24 +8,26 @@ import java.util.Map;
 public class CommandFactory {
     Map <String, Command> commandMap;
 
-    private CommandFactory instance = new CommandFactory();
-
+    private static final CommandFactory instance = new CommandFactory();
+    private Command defaultCommand;
     private CommandFactory() {
-        this.commandMap = new HashMap<String,Command>() {{
-            put("/login",new LoginCommand());
-            put("/logout",new LogoutCommand());
-            put("/get_page",new GetPageCommand());
-            put("/main",new GetMainPageCommand());
-
+        this.commandMap = new HashMap<>() {{
+            put("/login", new LoginCommand());
+            put("/logout", new LogoutCommand());
+            put("/get_page", new GetPageCommand());
+            put("/main", new GetMainPageCommand());
+            put("/register", new RegistrationCommand());
+            put("/profile", new GetProfileCommand());
         }};
+        defaultCommand = new UnknownCommand();
     }
 
-    public CommandFactory getInstance() {
+    public static CommandFactory getInstance() {
         return instance;
     }
 
     public Command getCommand(String url) {
-        return commandMap.get(url);
+        return commandMap.getOrDefault(url, defaultCommand);
     }
 
 

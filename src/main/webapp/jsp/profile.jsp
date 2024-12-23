@@ -15,25 +15,13 @@
 
        <body>
        <a href = "#">Show info</a>
-       <a href = "#">Show my advertisments</a>
-       <h1>${user.nickName}</h1>
-       <h1>${user.firstName}</h1>
-       <h1>${user.lastName}</h1>
-       <h1>${user.role}</h1>
-       <h1>${user.login}</h1>
-       <h1>${user.email}</h1>
+       <a href = "#">Show my advertisements</a>
+       <h1>${user.nickName.value}</h1>
+       <h1>${user.firstName.value}</h1>
+       <h1>${user.lastName.value}</h1>
         <mytag:TimeTagDescription/>
-       //insert for tag
-                   <c:choose>
-                       <c:when test="${userName!=null}">
-                           ${userName}
-                       </c:when>
-                       <c:otherwise>
-                          null
-                       </c:otherwise>
-                   </c:choose>
        <br>
-       <a href="get_page?page=main">To main</a>
+       <a href="/main">To main</a>
        <br>
        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Create new Ads</button>
        <br>

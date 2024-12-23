@@ -12,11 +12,13 @@ import java.io.IOException;
 public class ServletController extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(ServletController.class);
     private ActionFactory actionFactory;
+    private CommandFactory commandFactory;
 
     @Override
     public void init() throws ServletException {
         super.init();
         actionFactory = new ActionFactory();
+        commandFactory = CommandFactory.getInstance();
         LOGGER.info("{} has been initialized.", getClass().getSimpleName());
     }
 
@@ -27,22 +29,18 @@ public class ServletController extends HttpServlet {
     }
 
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(200);
-        LOGGER.info("request for login page Servlet has been handled");
-        handleRequest(request, response);
-    }
-
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getServletPath());
         Command command = actionFactory.defineCommand(request);
-        String url = command.execute(request);
-        request.getRequestDispatcher(url).forward(request, response);
+        Command command2 = commandFactory.getCommand(request.getServletPath());
+        try {
+            command.execute(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            doGet(request, response);
+            handleRequest(request, response);
     }
 }

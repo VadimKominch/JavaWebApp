@@ -1,4 +1,4 @@
-package by.epam.learn.vadimkominch.daoimplementation;
+package by.epam.learn.vadimkominch.repository;
 
 import by.epam.learn.vadimkominch.connectionpool.ConnectionPool;
 

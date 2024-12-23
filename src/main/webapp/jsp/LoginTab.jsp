@@ -5,7 +5,7 @@
  </head>
  <body>
  <li class="nav-item">
-    <a class="nav-link" href="get_page?page=login">Log in</a>
+    <a class="nav-link" href="/login">Log in</a>
  </li>
  </body>
 </html>

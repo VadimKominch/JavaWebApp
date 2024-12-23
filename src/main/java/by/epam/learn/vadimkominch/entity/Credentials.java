@@ -10,14 +10,14 @@ public class Credentials {
     private EntityField<String> login;
     private EntityField<String> password;
     private EntityField<String> email;
-
-    public Credentials(String login, String password, String email) {
-        setLogin(login);
-        setPassword(password);
-        setEmail(email);
-    }
+    private EntityField<Integer> userId;
 
     public Credentials() {
+        setId(-1);
+        setUserId(-1);
+        setLogin("");
+        setPassword("");
+        setEmail("");
     }
 
     public EntityField<Integer> getId() {
@@ -49,7 +49,15 @@ public class Credentials {
     }
 
     public void setEmail(String email) {
-        this.email = new EntityField<>(email, "email");;
+        this.email = new EntityField<>(email, "email");
+    }
+
+    public EntityField<Integer> getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = new EntityField<>(userId, "user_id");
     }
 
     @Override

@@ -3,11 +3,15 @@ package by.epam.learn.vadimkominch.demoservlet;
 import by.epam.learn.vadimkominch.command.*;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Class provided to generate command from request. Use object of @{HttpServletRequest}.
  */
 public class ActionFactory {
+
+    Logger log = LogManager.getLogger(ActionFactory.class);
 
     public Command defineCommand(HttpServletRequest request) {
         Command command;
@@ -24,6 +28,9 @@ public class ActionFactory {
                 break;
             case "/main":
                 command = new GetMainPageCommand();
+                break;
+            case "/profile":
+                command = new GetProfileCommand();
                 break;
             case "/get_page":
                 command = new GetPageCommand();

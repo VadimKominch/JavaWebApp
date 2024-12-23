@@ -30,7 +30,7 @@
  <label for="checkbox1"></label>
  </div>
  <span class="text">Запомнить</span>
- <button type="submit" class="btn btn-default pull-center" formaction="get_page?page=registration">REGISTRATION</button>
+ <a href="/register" class="btn btn-default pull-center">REGISTRATION</a>
  <button type="submit" class="btn btn-default pull-right" formaction="login">ENTER</button>
  </div>
  </form>

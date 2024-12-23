@@ -17,7 +17,7 @@
                     <li class="nav-item dropdown">
                              <a class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
                              <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="get_page?page=profile">Profile</a>
+                                 <a class="dropdown-item" href="profile">Profile</a>
                                  <a class="dropdown-item" href="logout">Logout</a>
                              </div>
                          </li>

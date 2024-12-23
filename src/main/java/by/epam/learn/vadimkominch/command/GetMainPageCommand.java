@@ -1,44 +1,51 @@
 package by.epam.learn.vadimkominch.command;
 
-import by.epam.learn.vadimkominch.daoimplementation.AdvertismentDaoImplementation;
-import by.epam.learn.vadimkominch.entity.Advertisment;
+import by.epam.learn.vadimkominch.entity.Category;
+import by.epam.learn.vadimkominch.entity.Page;
+import by.epam.learn.vadimkominch.entity.dao.Advertisement;
+import by.epam.learn.vadimkominch.service.AdvertisementService;
+import by.epam.learn.vadimkominch.service.CategoryService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.util.List;
 
 public class GetMainPageCommand implements Command {
+
+    private final AdvertisementService adsService;
+    private final CategoryService categoryService;
+
+    public static final String CURRENT_PAGE_SESSION_ATTRIBUTE = "currentPageNumber";
+    public static final String PAGE_NUMBER_URL_PARAMETER = "pageNumber";
+    public static final String ADS_LIST_SESSION_ATTRIBUTE = "advertisementList";
+    public static final String CATEGORIES_ATTRIBUTE = "categories";
+
+    public GetMainPageCommand() {
+        adsService = AdvertisementService.getInstance();
+        categoryService = CategoryService.getInstance();
+    }
+
     @Override
-    public String execute(HttpServletRequest request) {
-        AdvertismentDaoImplementation daoInterface = new AdvertismentDaoImplementation();
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         HttpSession session = request.getSession(true);
-        int totalSize = daoInterface.getAmountOfAdvertisments();
-//        System.out.println("Total size:" +totalSize);
-//        System.out.println((int)Math.ceil((double)totalSize/10));
-        session.setAttribute("totalPageAmount", (int)Math.ceil((double)totalSize/10));
-        int pageNumber;
-        if (session.getAttribute("mainPageAdvListNumber") == null) {
-            session.setAttribute("mainPageAdvListNumber", 1);
-            pageNumber = 1;
-        } else {
-            pageNumber = (int) session.getAttribute("mainPageAdvListNumber");
+        int pageNumber = 1;
+        if (session.getAttribute(CURRENT_PAGE_SESSION_ATTRIBUTE) != null) {
+            try {
+                pageNumber = Integer.parseInt(request.getParameter(PAGE_NUMBER_URL_PARAMETER));
+            } catch (NumberFormatException ignored) {}
         }
 
-        //bad style(correct if can)
-        String direction = request.getParameter("direction");
-        if (direction != null) {
-            if (direction.equals("next")) {
-                pageNumber += 1;
-            } else if (direction.equals("prev")) {
-                pageNumber -= 1;
-            }
-            session.setAttribute("mainPageAdvListNumber", pageNumber);
-        }
-        int lowBorder = 10 * (pageNumber - 1) + 1;
-        int highBorder = 10 * pageNumber;
-        System.out.println(lowBorder + ":" + highBorder);
-        List<Advertisment> advertismentList = daoInterface.getAdvertismentsInBorders(lowBorder, highBorder);
-        System.out.println(advertismentList.size());
-        session.setAttribute("advertismentList", advertismentList);
-        return "jsp/mainpage.jsp";
+
+        List<Advertisement> advertismentList = adsService.getAdvertisementPage(Page.of(pageNumber));
+        List<Category> categories = categoryService.getCategories();
+
+        session.setAttribute(CATEGORIES_ATTRIBUTE, categories);
+        session.setAttribute(CURRENT_PAGE_SESSION_ATTRIBUTE, pageNumber);
+        session.setAttribute(ADS_LIST_SESSION_ATTRIBUTE, advertismentList);
+
+        response.sendRedirect("jsp/mainpage.jsp");
+//        return "jsp/mainpage.jsp";
     }
 }

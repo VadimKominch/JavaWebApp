@@ -1,42 +1,58 @@
 package by.epam.learn.vadimkominch.command;
 
 import by.epam.learn.vadimkominch.check.LoginAndPasswordCheck;
-import by.epam.learn.vadimkominch.daoimplementation.DAOInterface;
-import by.epam.learn.vadimkominch.daoimplementation.UserDaoImplementation;
+import by.epam.learn.vadimkominch.repository.CredentialsRepository;
+import by.epam.learn.vadimkominch.repository.UserRepository;
+import by.epam.learn.vadimkominch.entity.Credentials;
 import by.epam.learn.vadimkominch.entity.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import by.epam.learn.vadimkominch.utils.HashUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
-    private static LoginAndPasswordCheck checker = new LoginAndPasswordCheck();
+    private final LoginAndPasswordCheck checker;
+    private final CredentialsRepository credentialsRepository;
+    private final UserRepository userRepository;
+
+    public LoginCommand() {
+        credentialsRepository = CredentialsRepository.getInstance();
+        userRepository = UserRepository.getInstance();
+        checker = new LoginAndPasswordCheck();
+    }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if("GET".equals(request.getMethod())) {
+            request.getRequestDispatcher("jsp/loginpage.jsp").forward(request,response);
+            return;
+        }
         HttpSession session = request.getSession(true);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        System.out.println(login);
-        System.out.println(password);
-        //defense from sql injection
         if (checker.checkLoginIsNullable(login) && checker.checkPasswordIsNullable(password)) {
-            DAOInterface<User, String> userDAOInterface = new UserDaoImplementation();
-            User user = userDAOInterface.getOne(login);
-            //insert check class
-            if (user != null && (user.getLogin().equals(login) || user.getEmail().equals(login)) && user.getPassword().equals(password)) {
-                if(session.getAttribute("userName")==null) {
-                    session.setAttribute("userName",user.getNickName());
-                }
-                if(session.getAttribute("user")==null) {
-                    session.setAttribute("user",user);
-                }
-                return "main";
-                //TODO replace by global variables
+            Credentials credentials = credentialsRepository.getByLogin(login);
+            if (
+                    credentials != null &&
+                            credentials.getLogin().getValue().equals(login) &&
+                    HashUtils.checkPass(password, credentials.getPassword().getValue())
+            ) {
+                User user = userRepository.getOne(credentials.getUserId().getValue()); // not null if credentials with one-to-one relationship
+                setAttributeIfMissing(session, "user", user);
+
+                response.sendRedirect("main");
+                return;
             }
         }
-        //TODO add error message to loginpage.jsp
-        return "jsp/loginpage.jsp";
-        //if action is login then return mainpage with credentials
-        //else do nothing or send error messages
+        // sendRedirect for success redirect
+        // forward for fail
+        request.getRequestDispatcher("jsp/loginpage.jsp").forward(request, response);
+    }
+
+    public <T> void setAttributeIfMissing(HttpSession session, String attrName, T attrValue) {
+        if(session.getAttribute(attrName) == null) {
+            session.setAttribute(attrName, attrValue);
+        }
     }
 }

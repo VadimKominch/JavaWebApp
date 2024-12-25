@@ -3,46 +3,50 @@ package by.epam.learn.vadimkominch.demoservlet;
 import by.epam.learn.vadimkominch.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ServletController extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(ServletController.class);
     private ActionFactory actionFactory;
+    private CommandFactory commandFactory;
 
     @Override
     public void init() throws ServletException {
         super.init();
         actionFactory = new ActionFactory();
-        LOGGER.info(getClass().getSimpleName() + " has been initialized.");
+        commandFactory = CommandFactory.getInstance();
+        LOGGER.info("{} has been initialized.", getClass().getSimpleName());
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        LOGGER.info(getClass().getSimpleName() + " has been destroyed.");
+        LOGGER.info("{} has been destroyed.", getClass().getSimpleName());
     }
 
+
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Command command = actionFactory.defineCommand(request);
+        Command command2 = commandFactory.getCommand(request.getServletPath());
+        System.out.println();
+        try {
+            command.execute(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(200);
-        LOGGER.info("request for login page Servlet has been handled");
         handleRequest(request, response);
     }
 
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getServletPath());
-        Command command = actionFactory.defineCommand(request);
-        String url = command.execute(request);
-        request.getRequestDispatcher(url).forward(request, response);
-    }
-
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            doGet(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        handleRequest(request, response);
     }
 }

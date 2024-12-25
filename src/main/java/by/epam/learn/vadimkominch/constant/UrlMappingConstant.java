@@ -1,4 +1,4 @@
-package by.epam.learn.vadimkominch.Constant;
+package by.epam.learn.vadimkominch.constant;
 
 public class UrlMappingConstant {
     public static final String TO_MAIN_PAGE = "jsp/mainpage.jsp";

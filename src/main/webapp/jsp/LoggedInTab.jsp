@@ -6,11 +6,11 @@
  <body>
            <ul class="nav navbar-nav ml-auto">
                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">${userName}</a>
+                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.nickName.value}</a>
                      <div class="dropdown-menu dropdown-menu-right">
-                         <a href="get_page?page=profile" class="dropdown-item">Profile</a>
+                         <a href="/profile" class="dropdown-item">Profile</a>
                          <div class="dropdown-divider"></div>
-                         <a class="dropdown-item" href="logout">Logout</a>
+                         <a class="dropdown-item" href="/logout">Logout</a>
                      </div>
                  </li>
              </ul>

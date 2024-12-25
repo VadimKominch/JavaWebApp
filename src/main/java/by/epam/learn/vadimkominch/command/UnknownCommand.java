@@ -1,11 +1,15 @@
 package by.epam.learn.vadimkominch.command;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UnknownCommand implements Command {
+    Logger log = LogManager.getLogger(UnknownCommand.class);
+
     @Override
-    public String execute(HttpServletRequest request) {
-        System.out.println("Unknown");
-        return null;
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        log.warn("Access to url {}", request.getServletPath());
     }
 }

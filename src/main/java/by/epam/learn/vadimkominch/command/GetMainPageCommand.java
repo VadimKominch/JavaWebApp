@@ -1,44 +1,60 @@
 package by.epam.learn.vadimkominch.command;
 
-import by.epam.learn.vadimkominch.daoimplementation.AdvertismentDaoImplementation;
-import by.epam.learn.vadimkominch.entity.Advertisment;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import by.epam.learn.vadimkominch.entity.Category;
+import by.epam.learn.vadimkominch.entity.Page;
+import by.epam.learn.vadimkominch.entity.dao.Advertisement;
+import by.epam.learn.vadimkominch.service.AdvertisementService;
+import by.epam.learn.vadimkominch.service.CategoryService;
+import by.epam.learn.vadimkominch.service.LanguageService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetMainPageCommand implements Command {
+
+    private final AdvertisementService adsService;
+    private final CategoryService categoryService;
+    private final LanguageService languageService;
+
+    public static final String CURRENT_PAGE_SESSION_ATTRIBUTE = "currentPageNumber";
+    public static final String PAGE_NUMBER_URL_PARAMETER = "pageNumber";
+    public static final String ADS_LIST_SESSION_ATTRIBUTE = "advertisementList";
+    public static final String CATEGORIES_ATTRIBUTE = "categories";
+    public static final String LANG_ATTRIBUTE = "language";
+    public static final String AVAILABLE_LANGUAGES_ATTRIBUTE = "langs";
+
+    public GetMainPageCommand() {
+        adsService = AdvertisementService.getInstance();
+        categoryService = CategoryService.getInstance();
+        languageService = LanguageService.getInstance();
+    }
+
     @Override
-    public String execute(HttpServletRequest request) {
-        AdvertismentDaoImplementation daoInterface = new AdvertismentDaoImplementation();
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<Advertisement> advertismentList = new ArrayList<>();
         HttpSession session = request.getSession(true);
-        int totalSize = daoInterface.getAmountOfAdvertisments();
-//        System.out.println("Total size:" +totalSize);
-//        System.out.println((int)Math.ceil((double)totalSize/10));
-            session.setAttribute("totalPageAmount", (int)Math.ceil((double)totalSize/10));
-        int pageNumber;
-        if (session.getAttribute("mainPageAdvListNumber") == null) {
-            session.setAttribute("mainPageAdvListNumber", 1);
-            pageNumber = 1;
+        int pageNumber = 1;
+        if (session.getAttribute(CURRENT_PAGE_SESSION_ATTRIBUTE) != null) {
+            try {
+                pageNumber = Integer.parseInt(request.getParameter(PAGE_NUMBER_URL_PARAMETER));
+            } catch (NumberFormatException ignored) {}
         } else {
-            pageNumber = (int) session.getAttribute("mainPageAdvListNumber");
+
         }
 
-        //bad style(correct if can)
-        String direction = request.getParameter("direction");
-        if (direction != null) {
-            if (direction.equals("next")) {
-                pageNumber += 1;
-            } else if (direction.equals("prev")) {
-                pageNumber -= 1;
-            }
-            session.setAttribute("mainPageAdvListNumber", pageNumber);
-        }
-        int lowBorder = 10 * (pageNumber - 1) + 1;
-        int highBorder = 10 * pageNumber;
-        System.out.println(lowBorder + ":" + highBorder);
-        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(lowBorder, highBorder);
-        System.out.println(advertismentList.size());
-        session.setAttribute("advertismentList", advertismentList);
-        return "jsp/mainpage.jsp";
+
+        advertismentList = adsService.getTopN(Page.DEFAULT_PAGE_SIZE);
+        List<Category> categories = categoryService.getCategories();
+
+        session.setAttribute(CATEGORIES_ATTRIBUTE, categories);
+        session.setAttribute(CURRENT_PAGE_SESSION_ATTRIBUTE, pageNumber);
+        session.setAttribute(ADS_LIST_SESSION_ATTRIBUTE, advertismentList);
+        session.setAttribute(LANG_ATTRIBUTE, languageService.getChoosen());
+        session.setAttribute(AVAILABLE_LANGUAGES_ATTRIBUTE, languageService.getAvailableLangs());
+
+        response.sendRedirect("jsp/mainpage.jsp");
     }
 }

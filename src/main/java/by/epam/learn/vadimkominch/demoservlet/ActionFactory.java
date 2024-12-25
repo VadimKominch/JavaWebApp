@@ -2,12 +2,16 @@ package by.epam.learn.vadimkominch.demoservlet;
 
 import by.epam.learn.vadimkominch.command.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Class provided to generate command from request. Use object of @{HttpServletRequest}.
  */
 public class ActionFactory {
+
+    Logger log = LogManager.getLogger(ActionFactory.class);
 
     public Command defineCommand(HttpServletRequest request) {
         Command command;
@@ -25,11 +29,17 @@ public class ActionFactory {
             case "/main":
                 command = new GetMainPageCommand();
                 break;
+            case "/profile":
+                command = new GetProfileCommand();
+                break;
             case "/get_page":
                 command = new GetPageCommand();
                 break;
-            case "/add_adv":
+            case "/advertisement":
                 command = new AddAdvertismentCommand();
+                break;
+            case "/categories":
+                command = new GetCategoriesCommand();
                 break;
             case "/edit_adv":
                 command = new ModifyAdvertismentCommand();

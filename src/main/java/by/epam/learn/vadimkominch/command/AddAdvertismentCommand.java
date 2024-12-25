@@ -1,35 +1,57 @@
 package by.epam.learn.vadimkominch.command;
 
-import by.epam.learn.vadimkominch.daoimplementation.AdvertismentDaoImplementation;
-import by.epam.learn.vadimkominch.daoimplementation.DAOInterface;
-import by.epam.learn.vadimkominch.entity.Advertisment;
+import by.epam.learn.vadimkominch.entity.AdvertisementApiModel;
+import by.epam.learn.vadimkominch.entity.dao.Advertisement;
+import by.epam.learn.vadimkominch.repository.AdvertismentRepository;
 import by.epam.learn.vadimkominch.entity.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import by.epam.learn.vadimkominch.service.AdvertisementService;
+import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
 import java.util.Date;
-import java.util.List;
 
 public class AddAdvertismentCommand implements Command{
-    @Override
-    public String execute(HttpServletRequest request) {
-        DAOInterface<Advertisment,String> daoInterface = new AdvertismentDaoImplementation();
-        String adsName = request.getParameter("Name");
-        String adsText = request.getParameter("Text");
-        String category = request.getParameter("Category");
 
-        User user = (User)request.getSession(true).getAttribute("user");
-//        System.out.println(user);
-        Advertisment advertisment = new Advertisment();
-        advertisment.setAuthor(user.getNickName());
-        advertisment.setCategory(category);
-        advertisment.setDate(new Date());
-        advertisment.setName(adsName);
-        advertisment.setText(adsText);
-        advertisment.setAuthorId(user.getId());
-        daoInterface.addOneDAO(advertisment);
-        List<Advertisment> advertismentList = daoInterface.getAmountOfDAOInBorders(1,10);//add builder for selecting
-        request.getSession(true).setAttribute("advertismentList", advertismentList);
-        return "jsp/advertisment.jsp";
+    private final AdvertisementService adsService;
+
+    public AddAdvertismentCommand() {
+        adsService = AdvertisementService.getInstance();
+    }
+
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AdvertismentRepository adsRepository = new AdvertismentRepository();
+        AdvertisementApiModel adsModel = null;
+        try(BufferedReader reader = request.getReader()) {
+            StringBuilder buffer = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+                buffer.append(System.lineSeparator());
+            }
+            String data = buffer.toString();
+            var gson = new Gson();
+             adsModel = gson.fromJson(data, AdvertisementApiModel.class);
+        }
+
+//        String title = request.getParameter("name");
+//        String body = request.getParameter("text");
+//        String category = request.getParameter("category");
+//        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+
+        User user = (User)request.getSession().getAttribute("user");
+        Advertisement advertisement = new Advertisement();
+        advertisement.setTitle(adsModel.getTitle());
+        advertisement.setBody(adsModel.getBody());
+        advertisement.setCreatedDate(new Date());
+        advertisement.setAuthorId(user.getId().getValue());
+        advertisement.setCategoryId(adsModel.getCategoryId());
+        adsRepository.save(advertisement);
+//        List<Advertisement> advertismentList = daoInterface.getAdvertisementsInBorders(1,10);//add builder for selecting
+//        request.getSession(true).setAttribute("advertismentList", advertismentList);
+        response.sendRedirect("/profile");
     }
 }

@@ -1,10 +1,11 @@
 package by.epam.learn.vadimkominch.filter;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import by.epam.learn.vadimkominch.command.Command;
+import by.epam.learn.vadimkominch.demoservlet.ActionFactory;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -17,9 +18,11 @@ public class RegistrationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("1");
+//        System.out.println("1");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        ActionFactory factory = new ActionFactory();
+        Command command = factory.defineCommand(request);
 //        response.sendRedirect(filterPath);
         //request.getRequestDispatcher(filterPath).forward(request,response);
 

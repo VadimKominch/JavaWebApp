@@ -19,10 +19,14 @@ public class Category {
     }
 
     public void setId(int id) {
-        this.id = new EntityField<>(-1, "id");
+        this.id = new EntityField<>(id, "id");
     }
 
     public void setName(String name) {
         this.name = new EntityField<>(name, "name");
+    }
+
+    public String toJsonString() {
+        return String.format("{ \"id\" : %d , \"name\": \" %s\"}", this.id.getValue(), this.name.getValue());
     }
 }

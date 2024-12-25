@@ -20,8 +20,8 @@ public class CategoryRepository extends AbstractRepository<Category, Integer>{
     public List<Category> getAll() {
         List<Category> categories = new ArrayList<>();
         Connection connection = getConnection();
-        try {
-            PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_ALL_CATEGORIES);
+        try(PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_ALL_CATEGORIES);) {
+
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
                 Category category = new Category();
@@ -29,8 +29,6 @@ public class CategoryRepository extends AbstractRepository<Category, Integer>{
                 category.setName(resultSet.getString(category.getName().getColumnName()));
                 categories.add(category);
             }
-            ps.close();
-            resultSet.close();
         } catch (SQLException e) {
         } finally {
             releaseConnection(connection);

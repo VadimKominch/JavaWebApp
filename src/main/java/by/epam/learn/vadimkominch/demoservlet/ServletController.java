@@ -32,6 +32,7 @@ public class ServletController extends HttpServlet {
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Command command = actionFactory.defineCommand(request);
         Command command2 = commandFactory.getCommand(request.getServletPath());
+        System.out.println();
         try {
             command.execute(request, response);
         } catch (Exception e) {
@@ -40,7 +41,12 @@ public class ServletController extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            handleRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        handleRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        handleRequest(request, response);
     }
 }

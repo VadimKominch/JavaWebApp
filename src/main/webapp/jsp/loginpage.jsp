@@ -29,7 +29,7 @@
  <input type="checkbox" value="none" id="checkbox1" name="check"/>
  <label for="checkbox1"></label>
  </div>
- <span class="text">Запомнить</span>
+ <span class="text">Rememeber me</span>
  <a href="/register" class="btn btn-default pull-center">REGISTRATION</a>
  <button type="submit" class="btn btn-default pull-right" formaction="login">ENTER</button>
  </div>

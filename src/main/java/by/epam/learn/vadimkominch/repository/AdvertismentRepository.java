@@ -40,14 +40,33 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
 
     public List<Advertisement> getAdvertisementsInBorders(Integer fromId, Integer toId) {
         List<Advertisement> advertismentList = new ArrayList<>();
+//        Connection connection = getConnection();
+//        try {
+//            PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_PAGE_OF_ADVERTISMENTS);
+//            ps.setInt(1,fromId);
+//            ps.setInt(2,toId);
+//            ResultSet resultSet = ps.executeQuery();
+//            while(resultSet.next()) {
+//                Advertisement advertisement = mapResultSetToUser(resultSet);
+//                advertismentList.add(advertisement);
+//            }
+//        } catch (SQLException e) {
+//            log.error(e);
+//        } finally {
+//            releaseConnection(connection);
+//        }
+        return advertismentList;
+    }
+
+    public List<Advertisement> getFirstNAds(Integer n) {
+        List<Advertisement> advertismentList = new ArrayList<>();
         Connection connection = getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_PAGE_OF_ADVERTISMENTS);
-            ps.setInt(1,fromId);
-            ps.setInt(2,toId);
+            PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_TOP_N_ADVERTISEMENTS);
+            ps.setInt(1,n);
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
-                Advertisement advertisement = mapResultSetToUser(resultSet);
+                Advertisement advertisement = mapResultSetToAds(resultSet);
                 advertismentList.add(advertisement);
             }
         } catch (SQLException e) {
@@ -67,7 +86,7 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
             ResultSet resultSet = ps.executeQuery();
 
             while(resultSet.next()) {
-                Advertisement advertisement = mapResultSetToUser(resultSet);
+                Advertisement advertisement = mapResultSetToAds(resultSet);
                 advertismentList.add(advertisement);
             }
         } catch (SQLException e) {
@@ -85,7 +104,7 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
         try(PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_ALL_ADVERTISEMENTS)) {
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
-                Advertisement advertisement = mapResultSetToUser(resultSet);
+                Advertisement advertisement = mapResultSetToAds(resultSet);
                 advertismentList.add(advertisement);
             }
         } catch (SQLException e) {
@@ -153,7 +172,7 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
         }
     }
 
-    private Advertisement mapResultSetToUser(ResultSet resultSet) throws SQLException {
+    private Advertisement mapResultSetToAds(ResultSet resultSet) throws SQLException {
         Advertisement advertisement = new Advertisement();
         advertisement.setId(resultSet.getInt(advertisement.getId().getColumnName()));
         advertisement.setTitle(resultSet.getString(advertisement.getTitle().getColumnName()));

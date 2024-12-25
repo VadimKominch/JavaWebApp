@@ -21,6 +21,10 @@ public class AdvertisementService {
         return adsRepository.getAdvertisementsInBorders(lowBorder,highBorder);
     }
 
+    public List<Advertisement> getTopN(int n) {
+        return adsRepository.getFirstNAds(n);
+    }
+
     public List<Advertisement> getUserAdvertisements(int userId) {
         return adsRepository.getAdvertisementsForUser(userId);
     }

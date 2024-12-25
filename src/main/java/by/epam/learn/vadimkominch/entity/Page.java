@@ -5,7 +5,7 @@ public class Page {
     private int pageSize;
     private int pageNumber;
 
-    private static final int DEFAULT_PAGE_SIZE = 10;
+    public static final int DEFAULT_PAGE_SIZE = 10;
 
     public Page(int pageSize, int pageNumber) {
         this.pageSize = pageSize;

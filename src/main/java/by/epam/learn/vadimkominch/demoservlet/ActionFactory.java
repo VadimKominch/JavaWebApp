@@ -35,8 +35,11 @@ public class ActionFactory {
             case "/get_page":
                 command = new GetPageCommand();
                 break;
-            case "/add_adv":
+            case "/advertisement":
                 command = new AddAdvertismentCommand();
+                break;
+            case "/categories":
+                command = new GetCategoriesCommand();
                 break;
             case "/edit_adv":
                 command = new ModifyAdvertismentCommand();

@@ -131,4 +131,8 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
   margin-bottom: 0;
 }
-.card-img-right{max-width:280px;height:outo;}
+.card-img-right{max-width:280px;height:auto;}
+
+body {
+min-height:100vh;
+}

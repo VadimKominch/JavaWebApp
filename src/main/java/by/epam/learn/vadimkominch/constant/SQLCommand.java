@@ -18,13 +18,13 @@ public class SQLCommand {
 
     //Advertisement commands
     public static final String GET_ALL_ADVERTISEMENTS = "SELECT * from paragraph"; //use join for getting author with its paragraph(need for setting style of site)
-    public static final String GET_ALL_ADVERTISEMENTS_BY_USER = "SELECT id,paragraph_name, category, author_id from paragraph where author_id=? order by created_date desc";
+    public static final String GET_TOP_N_ADVERTISEMENTS = "SELECT * from paragraph order by created_date desc limit ?";
+    public static final String GET_ALL_ADVERTISEMENTS_BY_USER = "SELECT id,title,body,category_id,created_date, author_id from paragraph where author_id=? order by created_date desc";
     public static final String INSERT_ADVERTISEMENT = "INSERT INTO paragraph (title,body,category_id,created_date, author_id) values (?,?,?,?,?)";
     public static final String DELETE_ADVERTISEMENT = "DELETE FROM paragraph WHERE  id = ?";
     public static final String SELECT_ADVERTISMENTS_FOR_ONE_PAGE = "SELECT * from `paragraph` WHERE id BETWEEN ? AND ?";
     public static final String UPDATE_ADVERTISMENT_NAME_AND_CATEGORY = "UPDATE `paragraph` SET `Parapgraph_name` = ?,`Category` = ? WHERE  paragraph_id = ? ";
-    public static final String GET_PAGE_OF_ADVERTISMENTS = "SELECT *  FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY author_id ) AS RowNum,paragraph.Category AS category, paragraph.Parapgraph_name AS name,user.NicKname AS nickname, paragraph_articles.Article_text AS text,paragraph.paragraph_id AS paragraph_id, paragraph_articles.creation_date AS creation_date FROM  `paragraph` JOIN `paragraph_articles` ON paragraph.paragraph_id = paragraph_articles.paragraph_id JOIN `user` on paragraph.author_id = user.User_id) AS RowConstrainedResult WHERE   RowNum >= ?  AND RowNum < ? ORDER BY RowNum;";
-    //TODO add some queries for categories(not duplicate)
+     //TODO add some queries for categories(not duplicate)
     //Ratings commands
     public static final String GET_AVERAGE_RATING = "";
     public static final String ADD_RATING = "";

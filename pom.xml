@@ -19,7 +19,7 @@
     <log4j2.version>2.17.1</log4j2.version>
     <servlet.version>4.0.4</servlet.version>
     <jstl.version>2.0.0</jstl.version>
-    <tomcat.version>10.1.0</tomcat.version>
+    <tomcat.version>10.1.34</tomcat.version>
     <junit.version>5.9.1</junit.version>
   </properties>
 

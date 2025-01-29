@@ -11,7 +11,7 @@ form.addEventListener("submit",async (e) => {
     const email = document.querySelector(".email").value;
 
 
-    await fetch("http://localhost:8090/register", {
+    const response = await fetch("http://localhost:8090/register", {
         method: "POST",
 //        headers: new Headers({'Content-Type': 'multipart/form-data'}),
         body: JSON.stringify({
@@ -24,4 +24,7 @@ form.addEventListener("submit",async (e) => {
             // add error from frontend
         })
     });
+    if (response.redirected) {
+        window.location.href = response.url;
+    }
 });

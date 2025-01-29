@@ -10,10 +10,7 @@
 <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body class = "bg-dark">
-<div class="container">
- <div class="row mypadding">
-
- <div class="col-md-offset-3 col-md-6">
+ <div class="login-form-container">
  <form class=" my-margin-bottom form-horizontal" method="POST">
  <span class="heading">АВТОРИЗАЦИЯ</span>
  <div class="form-group">
@@ -25,19 +22,18 @@
  <i class="fa fa-lock"></i>
  </div>
  <div class="form-group">
- <div class="main-checkbox">
- <input type="checkbox" value="none" id="checkbox1" name="check"/>
- <label for="checkbox1"></label>
+     <div class="main-checkbox">
+         <input type="checkbox" value="none" id="checkbox1" name="check"/>
+         <label for="checkbox1"></label>
+     </div>
+     <span class="text">Remember me</span>
  </div>
- <span class="text">Rememeber me</span>
- <a href="/register" class="btn btn-default pull-center">REGISTRATION</a>
- <button type="submit" class="btn btn-default pull-right" formaction="login">ENTER</button>
- </div>
+  <div class="btn-group">
+      <a href="/register" class="btn btn-default">REGISTRATION</a>
+      <button type="submit" class="btn btn-default" formaction="login">ENTER</button>
+  </div>
  </form>
  </div>
-
- </div>
-</div>
 <script src="js/login.js"></script>
 </body>
 </html>

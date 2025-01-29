@@ -1,5 +1,6 @@
 package by.epam.learn.vadimkominch.repository;
 
+import by.epam.learn.vadimkominch.connectionpool.ConnectionPool;
 import by.epam.learn.vadimkominch.constant.SQLCommand;
 import by.epam.learn.vadimkominch.entity.User;
 
@@ -39,10 +40,6 @@ public class UserRepository extends AbstractRepository<User, Integer> {
         return List.of();
     }
 
-    public User getByEmail(String email) {
-        return null;
-    }
-
     @Override
     public int save(User user) {
         Connection connection = getConnection();
@@ -58,6 +55,8 @@ public class UserRepository extends AbstractRepository<User, Integer> {
             }
         } catch (SQLException e) {
 
+        } finally {
+            releaseConnection(connection);
         }
 
         return id;
@@ -70,7 +69,21 @@ public class UserRepository extends AbstractRepository<User, Integer> {
 
     @Override
     public void update(Integer id, User replace) {
-
+        Connection connection = getConnection();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SQLCommand.UPDATE_USER)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setString(1,replace.getFirstName().getValue());
+            preparedStatement.setString(2,replace.getLastName().getValue());
+            preparedStatement.setString(3,replace.getNickName().getValue());
+            preparedStatement.setInt(4,id);
+            int rows = preparedStatement.executeUpdate();
+            System.out.println(rows);
+            connection.commit();
+        } catch (SQLException ignored) {
+            ignored.printStackTrace();
+        } finally {
+            releaseConnection(connection);
+        }
     }
 
     private static class Holder {

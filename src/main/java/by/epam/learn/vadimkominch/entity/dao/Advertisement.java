@@ -3,6 +3,7 @@ package by.epam.learn.vadimkominch.entity.dao;
 import by.epam.learn.vadimkominch.entity.EntityField;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Advertisement {
 
@@ -68,5 +69,17 @@ public class Advertisement {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = new EntityField<>(createdDate, "created_date");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Advertisement that = (Advertisement) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getBody(), that.getBody()) && Objects.equals(getAuthorId(), that.getAuthorId()) && Objects.equals(getCategoryId(), that.getCategoryId()) && Objects.equals(getCreatedDate(), that.getCreatedDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getBody(), getAuthorId(), getCategoryId(), getCreatedDate());
     }
 }

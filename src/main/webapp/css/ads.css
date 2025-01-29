@@ -108,7 +108,16 @@ h1, h2, h3, h4, h5, h6 {
  */
 .blog-post {
   margin-bottom: 4rem;
+      display:flex;
+      flex-direction:row;
+      justify-content: space-between;
+      align-items:center;
 }
+
+.blog-content {
+    width:85%;
+}
+
 .blog-post-title {
   margin-bottom: .25rem;
   font-size: 2.5rem;
@@ -131,8 +140,36 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
   margin-bottom: 0;
 }
-.card-img-right{max-width:280px;height:auto;}
+.card-img-right{
+    max-width:280px;
+    height:auto;
+}
 
 body {
-min-height:100vh;
+    min-height:100vh;
+}
+
+.button-upper-group {
+    margin-top:15px;
+    width:100%;
+    box-sizing: border-box;
+    display:flex;
+    justify-content:end;
+}
+
+.button-upper-group .btn {
+    margin-right:25px;
+}
+
+.ads-edit-btn {
+    height: 50px;
+    width: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 50px;
+}
+
+.ads-edit-btn a {
+    color: white;
 }

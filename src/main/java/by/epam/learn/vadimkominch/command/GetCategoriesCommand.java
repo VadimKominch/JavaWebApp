@@ -12,14 +12,18 @@ public class GetCategoriesCommand implements Command {
     private final CategoryService categoryService;
 
     public GetCategoriesCommand() {
-        categoryService = CategoryService.getInstance();
+        this(CategoryService.getInstance());
+    }
+
+    public GetCategoriesCommand(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<Category> categories = categoryService.getCategories();
         String categoriesString = categories.stream().map(Category::toJsonString).collect(Collectors.joining(",\n"));
-        String responseString = "[ "+ categoriesString + "]";
+        String responseString = "["+ categoriesString + "]";
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(responseString);

@@ -14,7 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 
 /**
- * Class which provides database connection. Locks used.
+ * database connection provider class. Initialize custom connectino pool from properties or default pool size.
  */
 public class ConnectionPool {
     private Queue<Connection> connectionList;
@@ -44,7 +44,7 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) {
-            connectionList.add(connection);
+        connectionList.add(connection);
     }
 
     public Connection getConnection() {

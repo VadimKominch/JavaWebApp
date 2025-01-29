@@ -2,7 +2,7 @@ package by.epam.learn.vadimkominch.filter;
 
 
 import by.epam.learn.vadimkominch.command.Command;
-import by.epam.learn.vadimkominch.demoservlet.ActionFactory;
+import by.epam.learn.vadimkominch.servlet.ActionFactory;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

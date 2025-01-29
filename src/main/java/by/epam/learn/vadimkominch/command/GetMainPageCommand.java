@@ -27,9 +27,13 @@ public class GetMainPageCommand implements Command {
     public static final String AVAILABLE_LANGUAGES_ATTRIBUTE = "langs";
 
     public GetMainPageCommand() {
-        adsService = AdvertisementService.getInstance();
-        categoryService = CategoryService.getInstance();
-        languageService = LanguageService.getInstance();
+        this(AdvertisementService.getInstance(), CategoryService.getInstance(), LanguageService.getInstance());
+    }
+
+    public GetMainPageCommand(AdvertisementService adsService, CategoryService categoryService, LanguageService languageService) {
+        this.adsService = adsService;
+        this.categoryService = categoryService;
+        this.languageService = languageService;
     }
 
     @Override

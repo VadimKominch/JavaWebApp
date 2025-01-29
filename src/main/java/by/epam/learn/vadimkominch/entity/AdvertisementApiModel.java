@@ -1,6 +1,7 @@
 package by.epam.learn.vadimkominch.entity;
 
 public class AdvertisementApiModel {
+    private int adsId;
     private String title;
     private String body;
     private int categoryId;
@@ -46,5 +47,13 @@ public class AdvertisementApiModel {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getAdsId() {
+        return adsId;
+    }
+
+    public void setAdsId(int adsId) {
+        this.adsId = adsId;
     }
 }

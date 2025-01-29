@@ -2,6 +2,8 @@ package by.epam.learn.vadimkominch.repository;
 
 import by.epam.learn.vadimkominch.constant.SQLCommand;
 import by.epam.learn.vadimkominch.connectionpool.ConnectionPool;
+import by.epam.learn.vadimkominch.entity.AdvertisementModel;
+import by.epam.learn.vadimkominch.entity.User;
 import by.epam.learn.vadimkominch.entity.dao.Advertisement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,15 +24,33 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
         Advertisement advertisement = null;
-        try {
-//            advertisement = new Advertisement();
-//            PreparedStatement preparedStatement = null;
-//            preparedStatement = connection.prepareStatement(SQLCommand.DELETE_ADVERTISMENT);
-//            preparedStatement.setInt(1,advertisement.getAdvertismentId());
-//            ResultSet resultSet = preparedStatement.executeQuery();
-            //TODO replace by logger
-//        } catch (SQLException e) {
-//            log.error(e);
+        try(PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_ADVERTISEMENT_BY_ID)) {
+            ps.setInt(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                advertisement = mapResultSetToAds(resultSet);
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return advertisement;
+    }
+
+    public AdvertisementModel getAdsWithCategoryAndUser(Integer id) {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        Connection connection = connectionPool.getConnection();
+        AdvertisementModel advertisement = null;
+        try(PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_ADVERTISEMENT_BY_ID_WITH_ALL_INFO)) {
+            ps.setInt(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                advertisement = mapResultSetToAdsModel(resultSet);
+            }
+        } catch (SQLException e) {
+            log.error(e);
         }
         finally {
             ConnectionPool.getInstance().releaseConnection(connection);
@@ -137,11 +157,11 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
     }
 
     @Override
-    public void delete(Advertisement advertisment) {
+    public void delete(Advertisement advertisement) {
         Connection connection = getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement(SQLCommand.DELETE_ADVERTISEMENT);
-//            ps.setInt(1,advertisment.getAdvertismentId());
+            ps.setInt(1,advertisement.getId().getValue());
             ps.executeUpdate();
         } catch (SQLException e) {
             log.error(e);
@@ -153,18 +173,12 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
     @Override
     public void update(Integer id, Advertisement replace) {
         Connection connection = getConnection();
-        try(PreparedStatement ps = connection.prepareStatement(SQLCommand.UPDATE_ADVERTISMENT_NAME_AND_CATEGORY)) {
-
-//            ps.setString(1,replace.getName());
-//            ps.setString(2,replace.getCategory());
-//            ps.setInt(3,replace.getAdvertismentId());
-//            //set other fields
-//            ps.executeUpdate();
-//            ps = connection.prepareStatement(SQLCommand.UPDATE_ADVERTISMENT_TEXT);
-//            ps.setString(1,replace.getText());
-//            ps.setDate(2,new Date(replace.getDate().getTime()));
-//            ps.setInt(3,replace.getAdvertismentId());
-//            ps.execute();
+        try(PreparedStatement ps = connection.prepareStatement(SQLCommand.UPDATE_ADVERTISEMENT)) {
+            ps.setString(1,replace.getTitle().getValue());
+            ps.setString(2,replace.getBody().getValue());
+            ps.setInt(3,replace.getCategoryId().getValue());
+            ps.setInt(4,id);
+            ps.executeUpdate();
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -178,8 +192,21 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
         advertisement.setTitle(resultSet.getString(advertisement.getTitle().getColumnName()));
         advertisement.setBody(resultSet.getString(advertisement.getBody().getColumnName()));
         advertisement.setAuthorId(resultSet.getInt(advertisement.getAuthorId().getColumnName()));
-        advertisement.setCreatedDate(new java.util.Date(resultSet.getDate(advertisement.getCreatedDate().getColumnName()).getTime()));
+        advertisement.setCreatedDate(new java.util.Date(resultSet.getTimestamp(advertisement.getCreatedDate().getColumnName()).getTime()));
         advertisement.setCategoryId(resultSet.getInt(advertisement.getCategoryId().getColumnName()));
+        return advertisement;
+    }
+
+    private AdvertisementModel mapResultSetToAdsModel(ResultSet resultSet) throws SQLException {
+        AdvertisementModel advertisement = new AdvertisementModel();
+        advertisement.setId(resultSet.getInt("id"));
+        advertisement.setTitle(resultSet.getString("title"));
+        advertisement.setBody(resultSet.getString("body"));
+        advertisement.setCategory(resultSet.getString("name"));
+        advertisement.setCreatedDate(new java.util.Date(resultSet.getTimestamp("created_date").getTime()));
+        User user = new User();
+        user.setNickName(resultSet.getString(user.getNickName().getColumnName()));
+        advertisement.setUser(user);
         return advertisement;
     }
 

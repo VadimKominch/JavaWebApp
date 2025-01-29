@@ -1,5 +1,6 @@
 package by.epam.learn.vadimkominch.service;
 
+import by.epam.learn.vadimkominch.entity.NickNameUpdateModel;
 import by.epam.learn.vadimkominch.repository.CredentialsRepository;
 import by.epam.learn.vadimkominch.repository.UserRepository;
 import by.epam.learn.vadimkominch.entity.Credentials;
@@ -27,6 +28,18 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public void updateUser(NickNameUpdateModel model) {
+        var user = userRepository.getOne(model.getId());
+        if(user != null) {
+            user.setNickName(model.getNickName());
+            userRepository.update(model.getId(), user);
+        }
+    }
+
+    public User getOne(int id) {
+        return userRepository.getOne(id);
     }
 
     private static class Holder {

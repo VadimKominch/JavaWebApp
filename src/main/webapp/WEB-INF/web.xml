@@ -10,7 +10,7 @@
   <servlet>
     <display-name>ServletController</display-name>
     <servlet-name>ServletController</servlet-name>
-    <servlet-class>by.epam.learn.vadimkominch.demoservlet.ServletController</servlet-class>
+    <servlet-class>by.epam.learn.vadimkominch.servlet.ServletController</servlet-class>
   </servlet>
 
   <servlet-mapping>

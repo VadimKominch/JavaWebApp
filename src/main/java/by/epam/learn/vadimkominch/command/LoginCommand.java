@@ -6,6 +6,7 @@ import by.epam.learn.vadimkominch.repository.UserRepository;
 import by.epam.learn.vadimkominch.entity.Credentials;
 import by.epam.learn.vadimkominch.entity.User;
 
+import by.epam.learn.vadimkominch.service.UserService;
 import by.epam.learn.vadimkominch.utils.HashUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,12 +15,16 @@ import jakarta.servlet.http.HttpSession;
 public class LoginCommand implements Command {
     private final LoginAndPasswordCheck checker;
     private final CredentialsRepository credentialsRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public LoginCommand() {
-        credentialsRepository = CredentialsRepository.getInstance();
-        userRepository = UserRepository.getInstance();
-        checker = new LoginAndPasswordCheck();
+        this(new LoginAndPasswordCheck(), CredentialsRepository.getInstance(), UserService.getInstance());
+    }
+
+    public LoginCommand(LoginAndPasswordCheck checker, CredentialsRepository credentialsRepository, UserService userService) {
+        this.checker = checker;
+        this.credentialsRepository = credentialsRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -38,7 +43,7 @@ public class LoginCommand implements Command {
                             credentials.getLogin().getValue().equals(login) &&
                     HashUtils.checkPass(password, credentials.getPassword().getValue())
             ) {
-                User user = userRepository.getOne(credentials.getUserId().getValue()); // not null if credentials with one-to-one relationship
+                User user = userService.getOne(credentials.getUserId().getValue()); // not null if credentials with one-to-one relationship
                 setAttributeIfMissing(session, "user", user);
 
                 response.sendRedirect("main");

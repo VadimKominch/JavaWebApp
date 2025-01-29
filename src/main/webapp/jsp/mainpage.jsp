@@ -16,47 +16,7 @@
        </head>
 
        <body>
-       <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="/main">LOGO</a>
-         <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
-                     <div class="dropdown-menu dropdown-menu-right">
-                        <c:forEach var="category" items="${categories}">
-                            <a href="#" class="dropdown-item">${category.name.value}</a>
-                        </c:forEach>
-                     </div>
-                 </li>
-             <li class="nav-item">
-               <a class="nav-link" href="#">Contacts</a>
-             </li>
-             <li class="nav-item">
-               <a class="nav-link" href="#">About us</a>
-             </li>
-          </ul>
-             <ul class="navbar-nav">
-                 <li class="navbar-item">
-                     <li class="nav-item dropdown">
-                              <a class="nav-link dropdown-toggle" data-toggle="dropdown">language</a>
-                              <div class="dropdown-menu dropdown-menu">
-                              <c:forEach var="lang" items="${langs}">
-                                <a href="#" class="dropdown-item">${lang}</a>
-                              </c:forEach>
-                              </div>
-                          </li>
-                 </li>
-                 <li class = "nav-item">
-                    <c:choose>
-                        <c:when test="${user!=null}">
-                            <c:import url="LoggedInTab.jsp"/>
-                        </c:when>
-                        <c:otherwise>
-                            <c:import url="LoginTab.jsp"/>
-                        </c:otherwise>
-                    </c:choose>
-                </li>
-             </ul>
-       </nav>
+       <c:import url="header.jsp"/>
 
        <main role="main" class="container">
              <div class="row">
@@ -64,10 +24,12 @@
                <c:forEach var="advertisement" items="${advertisementList}">
                    <jsp:include page="advertisment_tab.jsp" flush="true">
                    <jsp:param name="name" value="${advertisement.title.value}" />
-                   <jsp:param name="date" value="${advertisement.createdDate.value}" />
+                   <jsp:param name="date" value="${advertisement.createdDate.value.time}" />
                    <jsp:param name="author" value="${advertisement.authorId.value}" />
                    <jsp:param name="text" value="${advertisement.body.value}" />
-                   <jsp:param name="category" value="Common" />
+                   <jsp:param name="category" value="${advertisement.categoryId.value}" />
+                   <jsp:param name="isEditable" value="false" />
+                   <jsp:param name="isDeletable" value="false" />
                    </jsp:include>
                </c:forEach>
 

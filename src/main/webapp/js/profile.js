@@ -24,7 +24,6 @@ form.addEventListener("submit",async (e)=> {
     });
     await fetch("http://localhost:8090/advertisement", {
       method: "POST",
-//      headers: new Headers({'Content-Type': 'application/json'}),
       body: body
   });
   $('#exampleModal').modal('hide');

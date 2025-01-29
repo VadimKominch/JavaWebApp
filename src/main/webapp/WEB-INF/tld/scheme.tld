@@ -9,8 +9,33 @@
     <short-name>ctg</short-name>
     <uri>customtags</uri>
     <tag>
-        <name>TimeTagDescription</name>
+        <name>Time</name>
         <tag-class>by.epam.learn.vadimkominch.tag.TimeTag</tag-class>
         <body-content>empty</body-content>
+        <attribute>
+            <name>date</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>Author</name>
+        <tag-class>by.epam.learn.vadimkominch.tag.AuthorTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>authorId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>Category</name>
+        <tag-class>by.epam.learn.vadimkominch.tag.CategoryTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>categoryId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 </taglib>

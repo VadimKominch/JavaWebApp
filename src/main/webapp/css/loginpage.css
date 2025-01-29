@@ -8,17 +8,33 @@ background-color:#343a30;
 height:100%;
 }
 
-.mypadding{
-padding-top:15px;
+.login-form-container{
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.main-checkbox {
+    display:flex;
+}
+
+.btn-group {
+    margin-top: 80px;
+    padding-left:40px;
+    padding-right:40px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
 }
 
 /* Form Style */
 .form-horizontal{
  background: #fff;
  padding-bottom: 60px;
- border-radius: 15px;
  text-align: center;
  margin:0 auto;
+ width: 40%;
 }
 .form-horizontal .heading{
  display: block;
@@ -120,8 +136,8 @@ padding-top:15px;
  float: right;
  font-size: 14px;
  color: #fff;
+ max-width:150px;
  background: #00b4ef;
- border-radius: 30px;
  padding: 10px 25px;
  border: none;
  text-transform: capitalize;

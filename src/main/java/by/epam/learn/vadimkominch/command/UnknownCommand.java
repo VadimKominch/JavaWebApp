@@ -11,5 +11,6 @@ public class UnknownCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.warn("Access to url {}", request.getServletPath());
+        request.getRequestDispatcher("jsp/page404.jsp").forward(request,response);
     }
 }

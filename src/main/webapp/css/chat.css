@@ -1,0 +1,65 @@
+.container {
+    margin-top: 50px;
+    height: calc(100vh - 110px);
+    display:flex;
+    gap: 10px;
+}
+
+.dialog-list {
+    display:flex;
+    flex-direction: column;
+    flex: 3;
+}
+
+.dialog {
+    height: 50px;
+    padding-left: 25px;
+    padding-top: 12.5px;
+}
+
+.dialog + .dialog {
+    border-top:1px solid gray;
+}
+
+.active-dialog {
+    flex:6;
+    border-left: 1px solid gray;
+    height: 85%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.messages {
+    width: 100%;
+    height: 90%;
+    display:flex;
+    overflow-y:scroll;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.message {
+    width: 100%;
+    color: white;
+}
+
+.message p {
+    border-radius: 10px;
+    min-width: 25%;
+}
+
+.incoming {
+    float: left;
+    text-align: left;
+    padding-left: 10px;
+    background-color: #00a400;
+}
+
+.outgoing {
+    float: right;
+    text-align: right;
+    padding-right:10px;
+    background-color: #007bff;
+}
+

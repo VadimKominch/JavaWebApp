@@ -1,1 +1,0 @@
-const tabs = document.querySelectorAll();

@@ -33,4 +33,21 @@ create table if not exists category(
     primary key(id)
 );
 
+create table if not exists message(
+    id int not null auto_increment,
+    message text,
+    sender_id int not null,
+    conversation_id int not null,
+    send_date datetime not null,
+    primary key(id)
+);
+
+create table if not exists conversation(
+    id int not null auto_increment,
+    hash text not null,
+    first_id int not null,
+    second_id int not null,
+    primary key(id)
+);
+
 insert into category (name) values ('Common'),('Goods'),('Ads');

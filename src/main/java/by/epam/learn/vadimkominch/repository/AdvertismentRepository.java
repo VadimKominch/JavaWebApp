@@ -97,6 +97,26 @@ public class AdvertismentRepository extends AbstractRepository<Advertisement,Int
         return advertismentList;
     }
 
+    public List<Advertisement> getAdvertisementsForCategory(Integer categoryId) {
+        List<Advertisement> advertismentList = new ArrayList<>();
+        Connection connection = getConnection();
+        try(PreparedStatement ps = connection.prepareStatement(SQLCommand.GET_ALL_ADVERTISEMENTS_BY_CATEGORY);
+        ) {
+            ps.setInt(1,categoryId);
+            ResultSet resultSet = ps.executeQuery();
+
+            while(resultSet.next()) {
+                Advertisement advertisement = mapResultSetToAds(resultSet);
+                advertismentList.add(advertisement);
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            releaseConnection(connection);
+        }
+        return advertismentList;
+    }
+
     public List<Advertisement> getAdvertisementsForUser(Integer userId) {
         List<Advertisement> advertismentList = new ArrayList<>();
         Connection connection = getConnection();

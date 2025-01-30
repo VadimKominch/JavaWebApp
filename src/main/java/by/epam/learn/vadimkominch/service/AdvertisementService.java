@@ -37,6 +37,7 @@ public class AdvertisementService {
         return Collections.emptyList();
     }
 
+    // row set pagination(offset limitation on big amounts of data)
     public List<Advertisement> getAdvertisementPage(Page page) {
         int lowBorder = page.getPageSize() * (page.getPageNumber() - 1) + 1;
         int highBorder = page.getPageSize() * page.getPageNumber();
@@ -52,7 +53,7 @@ public class AdvertisementService {
     }
 
     public List<Advertisement> getCategoryAdvertisements(int categoryId) {
-        return Collections.emptyList();
+        return adsRepository.getAdvertisementsForCategory(categoryId);
     }
 
     public void saveAdvertisement(AdvertisementApiModel adsModel, User user) {

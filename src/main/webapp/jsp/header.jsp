@@ -12,10 +12,10 @@
                      </div>
                  </li>
              <li class="nav-item">
-               <a class="nav-link" href="#">Contacts</a>
+               <a class="nav-link" href="contacts.jsp">Contacts</a>
              </li>
              <li class="nav-item">
-               <a class="nav-link" href="#">About us</a>
+               <a class="nav-link" href="about.jsp">About us</a>
              </li>
           </ul>
              <ul class="navbar-nav">

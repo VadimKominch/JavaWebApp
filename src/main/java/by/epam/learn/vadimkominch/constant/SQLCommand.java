@@ -17,6 +17,7 @@ public class SQLCommand {
     public static final String GET_ALL_ADVERTISEMENTS = "SELECT * from paragraph"; //use join for getting author with its paragraph(need for setting style of site)
     public static final String GET_TOP_N_ADVERTISEMENTS = "SELECT * from paragraph order by created_date desc limit ?";
     public static final String GET_ALL_ADVERTISEMENTS_BY_USER = "SELECT id,title,body,category_id,created_date, author_id from paragraph where author_id=? order by created_date desc";
+    public static final String GET_ALL_ADVERTISEMENTS_BY_CATEGORY = "SELECT id,title,body,category_id,created_date, author_id from paragraph where category_id=? order by created_date desc";
     public static final String GET_ADVERTISEMENT_BY_ID = "SELECT id,title,body,category_id,created_date, author_id from paragraph where id=?";
     public static final String INSERT_ADVERTISEMENT = "INSERT INTO paragraph (title,body,category_id,created_date, author_id) values (?,?,?,?,?)";
     public static final String DELETE_ADVERTISEMENT = "DELETE FROM paragraph WHERE id = ?";
